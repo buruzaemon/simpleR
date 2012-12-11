@@ -190,3 +190,145 @@ lm <- lm(fat ~ carbo)
 abline(lm)
 dev.off()
 
+detach(UScereal)
+
+
+## Q 4.3
+data(package='MASS', mammals)
+attach(mammals)
+summary(mammals)
+#      body              brain        
+# Min.   :   0.005   Min.   :   0.14  
+# 1st Qu.:   0.600   1st Qu.:   4.25  
+# Median :   3.342   Median :  17.25  
+# Mean   : 198.790   Mean   : 283.13  
+# 3rd Qu.:  48.203   3rd Qu.: 166.00  
+# Max.   :6654.000   Max.   :5712.00 
+
+#  1. compare Pearson and Spearman correlation
+#     ... yes, they appear to be similar...
+cor(body, brain, method='pearson')
+# [1] 0.9341638
+
+cor(body, brain, method='spearman')
+# [1] 0.9534986
+
+#  2. plot 
+png(filename='images/4-3-2.png')
+plot(body, brain,
+     main="Body & Brain",
+     xlab="body",
+     ylab="brain")
+lm.a <- lm(brain ~ body)
+abline(lm.a, col="red")
+dev.off()
+
+summary(lm.a)
+#
+# Call:
+# lm(formula = brain ~ body)
+#
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -810.07  -88.52  -79.64  -13.02 2050.33 
+#
+# Coefficients:
+#                 Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) 91.00440   43.55258    2.09   0.0409 *  
+# body         0.96650    0.04766   20.28   <2e-16 ***
+# ---
+# Signif. codes:  0 e***f 0.001 e**f 0.01 e*f 0.05 e.f 0.1 e f 1 
+#
+# Residual standard error: 334.7 on 60 degrees of freedom
+# Multiple R-squared: 0.8727,     Adjusted R-squared: 0.8705 
+# F-statistic: 411.2 on 1 and 60 DF,  p-value: < 2.2e-16 
+
+#  3. plot with logarithms of variables
+png(filename='images/4-3-3.png')
+plot(log1p(body), log1p(brain),
+     main="Body & Brain, log values",
+     xlab="log1p(body)",
+     ylab="log1p(brain)")
+lm.b <- lm(log1p(brain) ~ log1p(body))
+abline(lm.b, col="red")
+dev.off()
+
+summary(lm.b)
+#
+# Call:
+# lm(formula = log1p(brain) ~ log1p(body))
+# 
+# Residuals:
+#      Min       1Q   Median       3Q      Max 
+# -1.27379 -0.57842 -0.04617  0.40597  2.05871 
+# 
+# Coefficients:
+#              Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  1.40033    0.14208   9.856 3.69e-14 ***
+# log1p(body)  0.89959    0.04578  19.652  < 2e-16 ***
+# ---
+# Signif. codes:  0 e***f 0.001 e**f 0.01 e*f 0.05 e.f 0.1 e f 1 
+#
+# Residual standard error: 0.7927 on 60 degrees of freedom
+# Multiple R-squared: 0.8655,     Adjusted R-squared: 0.8633 
+# F-statistic: 386.2 on 1 and 60 DF,  p-value: < 2.2e-16 
+
+detach(mammals)
+
+
+## Q 4.4
+data(package='UsingR', homedata)
+attach(homedata)
+
+summary(homedata)
+#     y1970            y2000        
+# Min.   :     0   Min.   :   7400  
+# 1st Qu.: 57000   1st Qu.: 161400  
+# Median : 68900   Median : 251700  
+# Mean   : 70821   Mean   : 268370  
+# 3rd Qu.: 80500   3rd Qu.: 335600  
+# Max.   :297200   Max.   :1182800
+
+#  1. plot indicates a strong correlation 
+#     linear model fits well
+#     there are some outliers, but neglible
+#     outliers may be luxury homes in trending 
+#     neighborhoods?
+png(filename='images/4-4-1.png')
+plot(y1970, y2000,
+     main="Home Prices: 1970 & 2000",
+     xlab="1970",
+     ylab="2000")
+lm.c <- lm(y2000 ~ y1970)
+abline(lm.c, col="red")
+dev.off()
+
+summary(lm.c)
+#
+# Call:
+# lm(formula = y2000 ~ y1970)
+# 
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -416665  -36308     809   34372  536605 
+# 
+# Coefficients:
+#              Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) -1.040e+05  2.337e+03  -44.51   <2e-16 ***
+# y1970        5.258e+00  3.147e-02  167.07   <2e-16 ***
+# ---
+# Signif. codes:  0 e***f 0.001 e**f 0.01 e*f 0.05 e.f 0.1 e f 1 
+# 
+# Residual standard error: 58000 on 6839 degrees of freedom
+# Multiple R-squared: 0.8032,     Adjusted R-squared: 0.8032 
+# F-statistic: 2.791e+04 on 1 and 6839 DF,  p-value: < 2.2e-16
+
+#  2. predict price home selling for 75000 in 1970
+b <- coef(lm.c)[[1]]
+b
+m <- coef(lm.c)[[2]]
+m
+predicted.price <- 75000*m + b
+predicted.price
+
+detach(homedata)
