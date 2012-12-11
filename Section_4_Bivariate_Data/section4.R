@@ -144,7 +144,7 @@ plot(carbo, sugars,
 	xlab="Carbo",
 	ylab="Sugars")
 lm <- lm(sugars ~ carbo)
-abline(lm)
+abline(lm, col="red")
 dev.off()
 
 #  5. the relationship between fibre and manufacturer
@@ -166,7 +166,7 @@ plot(sugars, sodium,
      xlab="Sugars",
      ylab="Sodium")
 lm <- lm(sodium ~ sugars)
-abline(lm)
+abline(lm, col="red")
 dev.off()
 
 #  7. Are there other relationships you can predict and investigate?
@@ -177,7 +177,7 @@ plot(sugars, calories,
      xlab="Sugars",
      ylab="Calories")
 lm <- lm(calories ~ sugars)
-abline(lm)
+abline(lm, col="red")
 dev.off()
 
 #     a. How about plotting to Carbo to Fat?
@@ -187,7 +187,7 @@ plot(carbo, fat,
      xlab="Carbo",
      ylab="Fat")
 lm <- lm(fat ~ carbo)
-abline(lm)
+abline(lm, col="red")
 dev.off()
 
 detach(UScereal)
