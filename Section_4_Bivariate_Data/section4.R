@@ -334,7 +334,7 @@ predicted.price
 detach(homedata)
 
 
-## Q 4.4
+## Q 4.5
 data(package='UsingR', 'florida')
 attach(florida)
 
@@ -433,3 +433,45 @@ abline(lm(df$BUCHANAN ~ df$BUSH),
 dev.off()
 
 detach(florida)
+
+
+## Q 4.6
+data(package="UsingR", emissions)
+attach(emissions)
+
+summary(emissions)
+#      GDP            perCapita          CO2        
+# Min.   :  59900   Min.   : 2507   Min.   :  54.0  
+# 1st Qu.: 123100   1st Qu.:13393   1st Qu.:  77.0  
+# Median : 206250   Median :20993   Median : 200.0  
+# Mean   : 830427   Mean   :17724   Mean   : 669.4  
+# 3rd Qu.: 683500   3rd Qu.:22250   3rd Qu.: 547.5  
+# Max.   :8083000   Max.   :29647   Max.   :6750.0 
+
+png(filename='images/4-6-1.png')
+plot(perCapita, CO2,
+    main="Emissions: Per-Capita vs CO2",
+    xlab="perCapita",
+    ylab="CO2")
+abline(lm(CO2 ~ perCapita), 
+    col="red", 
+    lty=1)
+
+#  1. Guess which country is the sole outlier?
+#identify(perCapita, CO2, n=1)
+#[1] 1
+
+##emissions[1,]
+##                  GDP perCapita  CO2
+## UnitedStates 8083000     29647 6750
+
+#  ... but even w/out this outlier, the regression line
+#      doesn't much change (kind of sad, really)
+abline(lm(emissions[-1]$CO2 ~ emissions[-1]$perCapita),
+    col="darkblue", 
+    lty=2)
+dev.off()
+
+detach(emissions)
+
+
