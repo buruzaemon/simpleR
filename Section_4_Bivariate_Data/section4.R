@@ -332,3 +332,104 @@ predicted.price <- 75000*m + b
 predicted.price
 
 detach(homedata)
+
+
+## Q 4.4
+data(package='UsingR', 'florida')
+attach(florida)
+
+names(florida)
+# [1] "County"     "GORE"       "BUSH"       "BUCHANAN"   "NADER"     
+# [6] "BROWN"      "HAGELIN"    "HARRIS"     "MCREYNOLDS" "MOOREHEAD" 
+# [11] "PHILLIPS"   "Total"     
+
+summary(florida)
+#      County        GORE             BUSH           BUCHANAN     
+# ALACHUA : 1   Min.   :   788   Min.   :  1316   Min.   :   9.0  
+# BAKER   : 1   1st Qu.:  3055   1st Qu.:  4746   1st Qu.:  46.5  
+# BAY     : 1   Median : 14152   Median : 20196   Median : 114.0  
+# BRADFORD: 1   Mean   : 43341   Mean   : 43356   Mean   : 258.5  
+# BREVARD : 1   3rd Qu.: 45974   3rd Qu.: 56542   3rd Qu.: 285.5  
+# BROWARD : 1   Max.   :386518   Max.   :289456   Max.   :3407.0  
+# (Other) :61                                                     
+#     NADER          BROWN           HAGELIN          HARRIS      
+# Min.   :  19   Min.   :   4.0   Min.   :  0.0   Min.   :   0.0  
+# 1st Qu.:  95   1st Qu.:  23.5   1st Qu.:  3.0   1st Qu.:   1.0  
+# Median : 562   Median : 116.0   Median : 13.0   Median :   4.0  
+# Mean   :1441   Mean   : 280.7   Mean   : 34.1   Mean   : 156.3  
+# 3rd Qu.:1871   3rd Qu.: 321.5   3rd Qu.: 33.5   3rd Qu.:   8.5  
+# Max.   :9986   Max.   :3211.0   Max.   :444.0   Max.   :9888.0  
+#                                                                      
+#   MCREYNOLDS       MOOREHEAD         PHILLIPS           Total       
+# Min.   :  0.00   Min.   :  0.00   Min.   :   0.00   Min.   :  2403  
+# 1st Qu.:  1.00   1st Qu.:  4.00   1st Qu.:   3.00   1st Qu.:  8080  
+# Median :  3.00   Median : 12.00   Median :  10.00   Median : 34941  
+# Mean   : 19.03   Mean   : 27.45   Mean   :  63.82   Mean   : 88978  
+# 3rd Qu.:  5.00   3rd Qu.: 32.00   3rd Qu.:  20.50   3rd Qu.:102874  
+# Max.   :658.00   Max.   :167.00   Max.   :2927.00   Max.   :625269
+
+#  1. use the simple.lm function in the UsingR package to plot
+#     and locate those 2 outliers...
+library(UsingR)
+simple.lm(BUSH,BUCHANAN)
+#
+# Call:
+# lm(formula = y ~ x)
+#
+# Coefficients:
+# (Intercept)            x  
+#   45.289861     0.004917  
+
+## NOTE
+#  you would have to click on the active graphics 
+#  window on the 2 outlier points to obtain their
+#  indices
+#identify(BUSH, BUCHANAN, n=2)
+# [1] 13 50
+
+BUSH[13]
+# [1] 289456
+
+BUCHANAN[13]
+# [1] 561
+
+BUSH[50]
+# [1] 152846
+
+BUCHANAN[50]
+# [1] 3407
+
+florida[13,]
+#   County   GORE   BUSH BUCHANAN NADER BROWN HAGELIN HARRIS MCREYNOLDS MOOREHEAD PHILLIPS  Total
+#13   DADE 328702 289456      561  5355   759     119     88         36       124       69 625269
+
+florida[50,]
+#       County   GORE   BUSH BUCHANAN NADER BROWN HAGELIN HARRIS MCREYNOLDS MOOREHEAD PHILLIPS  Total
+#50 PALM BEACH 268945 152846     3407  5564   743     143     45        302       103      188 432286
+
+df <- florida[(County!='DADE' & County!='PALM BEACH'),]
+simple.lm(df$BUSH, df$BUCHANAN, pred=BUSH[50])
+#        1 
+# 711.6168 
+#
+# ...
+# Coefficients:
+# (Intercept)            x  
+#   38.536279     0.004404 
+
+#  ... and even when removing these 2 outliers,
+#      there doesn't seem to be appreciable difference
+png(filename='images/4-5-1.png')
+plot(BUSH, BUCHANAN,
+    main="Florida: Bush vs Buchanan",
+    xlab="Bush",
+    ylab="Buchanan")
+abline(lm(BUCHANAN ~ BUSH), 
+    col="red", 
+    lty=1)
+abline(lm(df$BUCHANAN ~ df$BUSH), 
+    col="darkblue", 
+    lty=2)
+dev.off()
+
+detach(florida)
