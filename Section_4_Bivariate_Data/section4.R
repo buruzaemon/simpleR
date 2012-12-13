@@ -477,7 +477,7 @@ abline(lm(CO2 ~ perCapita),
 abline(lm(emissions[-1]$CO2 ~ emissions[-1]$perCapita),
     col="darkblue", 
     lty=2)
-legend("topright", 
+legend("topleft", 
     c("w/ outlier", "w/o outlier"), 
     text.col=c('red', 'darkblue'), 
     col=c("red", "darkblue"), 
@@ -489,3 +489,129 @@ dev.off()
 detach(emissions)
 
 
+## Q 4.7
+data(package="UsingR", babies)
+attach(babies)
+
+summary(babies)
+#       id          pluralty    outcome       date        gestation          sex   
+# Min.   :  15   Min.   :5   Min.   :1   Min.   :1350   Min.   :148.0   Min.   :1  
+# 1st Qu.:5286   1st Qu.:5   1st Qu.:1   1st Qu.:1444   1st Qu.:272.0   1st Qu.:1  
+# Median :6730   Median :5   Median :1   Median :1540   Median :280.0   Median :1  
+# Mean   :6001   Mean   :5   Mean   :1   Mean   :1536   Mean   :286.9   Mean   :1  
+# 3rd Qu.:7583   3rd Qu.:5   3rd Qu.:1   3rd Qu.:1627   3rd Qu.:288.0   3rd Qu.:1  
+# Max.   :9263   Max.   :5   Max.   :1   Max.   :1714   Max.   :999.0   Max.   :1  
+#       wt            parity            race             age              ed       
+# Min.   : 55.0   Min.   : 0.000   Min.   : 0.000   Min.   :15.00   Min.   :0.000  
+# 1st Qu.:108.8   1st Qu.: 0.000   1st Qu.: 0.000   1st Qu.:23.00   1st Qu.:2.000  
+# Median :120.0   Median : 1.000   Median : 3.000   Median :26.00   Median :2.000  
+# Mean   :119.6   Mean   : 1.932   Mean   : 3.206   Mean   :27.37   Mean   :2.922  
+# 3rd Qu.:131.0   3rd Qu.: 3.000   3rd Qu.: 7.000   3rd Qu.:31.00   3rd Qu.:4.000  
+# Max.   :176.0   Max.   :13.000   Max.   :99.000   Max.   :99.00   Max.   :9.000  
+#       ht             wt1          drace             dage            ded       
+# Min.   :53.00   Min.   : 87   Min.   : 0.000   Min.   :18.00   Min.   :0.000  
+# 1st Qu.:62.00   1st Qu.:115   1st Qu.: 0.000   1st Qu.:25.00   1st Qu.:2.000  
+# Median :64.00   Median :126   Median : 3.000   Median :29.00   Median :4.000  
+# Mean   :64.67   Mean   :154   Mean   : 3.665   Mean   :30.74   Mean   :3.189  
+# 3rd Qu.:66.00   3rd Qu.:140   3rd Qu.: 7.000   3rd Qu.:35.00   3rd Qu.:5.000  
+# Max.   :99.00   Max.   :999   Max.   :99.000   Max.   :99.00   Max.   :9.000  
+#      dht             dwt           marital           inc            smoke       
+# Min.   :60.00   Min.   :110.0   Min.   :0.000   Min.   : 0.00   Min.   :0.0000  
+# 1st Qu.:70.00   1st Qu.:165.0   1st Qu.:1.000   1st Qu.: 2.00   1st Qu.:0.0000  
+# Median :73.00   Median :190.0   Median :1.000   Median : 4.00   Median :1.0000  
+# Mean   :81.67   Mean   :505.4   Mean   :1.038   Mean   :13.16   Mean   :0.8681  
+# 3rd Qu.:99.00   3rd Qu.:999.0   3rd Qu.:1.000   3rd Qu.: 7.00   3rd Qu.:1.0000  
+# Max.   :99.00   Max.   :999.0   Max.   :5.000   Max.   :98.00   Max.   :9.0000  
+#     time            number      
+# Min.   : 0.000   Min.   : 0.000  
+# 1st Qu.: 0.000   1st Qu.: 0.000  
+# Median : 1.000   Median : 1.000  
+# Mean   : 1.748   Mean   : 2.604  
+# 3rd Qu.: 1.000   3rd Qu.: 3.000  
+# Max.   :99.000   Max.   :98.000 
+
+cor(age, wt1, method="pearson")
+# [1] 0.06273172
+cor(age, wt1, method="spearman")
+# [1] 0.1453316
+
+lm.babies <- lm(wt1 ~ age)
+
+# ... and plot shows this lack of correlation...
+png(filename='images/4-7-1.png')
+plot(age, wt1,
+     main="4.7 - Babies: Age vs Weight",
+     xlab="Age",
+     ylab="Weight")
+abline(lm.babies, col="red")
+dev.off()
+
+# let's just double-check this lack of correlation
+png(filename='images/4-7-2.png')
+par(mfcol=c(2,1))
+plot(lm.babies, which=1)
+plot(lm.babies, which=2)
+dev.off()
+
+summary(lm.babies)
+# Call:
+# lm(formula = wt1 ~ age)
+#
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -118.88  -39.13  -27.57  -12.13  857.05 
+#
+# Coefficients:
+#        Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) 114.6541    18.2974   6.266  5.1e-10 ***
+# age           1.4366     0.6506   2.208   0.0274 *  
+# ---
+# Signif. codes:  0 Åe***Åf 0.001 Åe**Åf 0.01 Åe*Åf 0.05 Åe.Åf 0.1 Åe Åf 1 
+#
+# Residual standard error: 147.6 on 1234 degrees of freedom
+# Multiple R-squared: 0.003935,   Adjusted R-squared: 0.003128 
+# F-statistic: 4.875 on 1 and 1234 DF,  p-value: 0.02743
+
+cor(ht, wt1, method="pearson")
+# [1] 0.6010033
+cor(ht, wt1, method="spearman")
+# [1] 0.5036179
+
+lm.babies <- lm(wt1 ~ ht)
+
+# ... and again, plot shows lack of correlation...
+png(filename='images/4-7-3.png')
+plot(ht, wt1,
+     main="4.7 - Babies: Height vs Weight",
+     xlab="Height",
+     ylab="Weight")
+abline(lm.babies, col="red")
+dev.off()
+
+# double-check!
+png(filename='images/4-7-4.png')
+par(mfcol=c(2,1))
+plot(lm.babies, which=1)
+plot(lm.babies, which=2)
+dev.off()
+
+summary(lm.babies)
+# Call:
+# lm(formula = wt1 ~ ht)
+#
+# Residuals:
+#     Min      1Q  Median      3Q     Max 
+# -614.89  -40.28  -15.77   13.18  940.80 
+#
+# Coefficients:
+#         Estimate Std. Error t value Pr(>|t|)    
+# (Intercept) -938.4516    41.4926  -22.62   <2e-16 ***
+# ht            16.8924     0.6395   26.41   <2e-16 ***
+# ---
+# Signif. codes:  0 Åe***Åf 0.001 Åe**Åf 0.01 Åe*Åf 0.05 Åe.Åf 0.1 Åe Åf 1 
+#
+# Residual standard error: 118.2 on 1234 degrees of freedom
+# Multiple R-squared: 0.3612,     Adjusted R-squared: 0.3607 
+#  F-statistic: 697.8 on 1 and 1234 DF,  p-value: < 2.2e-16 
+
+detach(babies)
