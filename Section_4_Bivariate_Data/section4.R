@@ -24,7 +24,7 @@ r1 <- factor(tmp[1,], levels=c(1,2,3,4,5))
 table.q1 <- table(q1, r1)
 png(filename='images/4-1-1a.png')
 barplot(table.q1, 
-        main="Rankings for Q1",
+        main="4.1 - Rankings for Q1",
 	xlab="Rankings",
         col='darkblue', 
 	legend.text=T)
@@ -36,7 +36,7 @@ r2 <- factor(tmp[2,], levels=c(1,2,3,4,5))
 table.q2 <- table(q2, r2)
 png(filename='images/4-1-1b.png')
 barplot(table.q2, 
-        main="Rankings for Q2",
+        main="4.1 - Rankings for Q2",
 	xlab="Rankings",
         col='red', 
 	legend.text=T)
@@ -53,7 +53,7 @@ q2_3 <- factor(rep(c('Q2', 'Q3'), each=10))
 r2_3 <- factor(append(tmp[2,], tmp[3,]), levels=c(1,2,3,4,5))
 table.q2_3 = table(q2_3, r2_3)
 barplot(table.q2_3, 
-        main="Q2 vs Q3",
+        main="4.1 - Q2 vs Q3",
 	xlab="Rankings",
 	col=c('red', 'darkgreen'),
 	legend=T)
@@ -65,7 +65,7 @@ q.all <- factor(rep(c('Q1', 'Q2', 'Q3'), each=10))
 r.all <- factor(append(append(tmp[1,], tmp[2,]), tmp[3,]), levels=c(1,2,3,4,5))
 table.all <- table(q.all, r.all)
 barplot(table.all, 
-        main="All Q's, Side-by-side",
+        main="4.1 - All Q's, Side-by-side",
 	xlab="Rankings",
 	col=c('darkblue', 'red', 'darkgreen'),
 	legend=T,
@@ -108,7 +108,7 @@ df <- UScereal
 #     both are CATEGORIES
 png(filename='images/4-2-1.png')
 barplot(table(df$shelf, df$mfr), 
-        main="Manufacturer & Shelf",
+        main="4.2 - Manufacturer & Shelf",
 	xlab="Manufacturer",
 	ylab="Shelf",
 	col=rainbow(3),
@@ -119,7 +119,7 @@ dev.off()
 #     fat is NUMERICAL, vitamains are CATEGORICAL
 png(filename='images/4-2-2.png')
 boxplot(fat ~ vitamins,
-        main="Vitamins & Fat",
+        main="4.2 - Vitamins & Fat",
 	xlab="Vitamins",
 	ylab="Fat")
 dev.off()
@@ -128,7 +128,7 @@ dev.off()
 #     fat is NUMERICAL, shelf if CATEGORICAL
 png(filename='images/4-2-3.png')
 boxplot(fat ~ shelf,
-        main="Shelf & Fat",
+        main="4.2 - Shelf & Fat",
 	xlab="Shelf",
 	ylab="Fat")
 dev.off()
@@ -140,7 +140,7 @@ dev.off()
 #     if there is a relation...
 png(filename='images/4-2-4.png')
 plot(carbo, sugars,
-        main="Carbo & Sugars",
+        main="4.2 - Carbo & Sugars",
 	xlab="Carbo",
 	ylab="Sugars")
 lm <- lm(sugars ~ carbo)
@@ -151,7 +151,7 @@ dev.off()
 #      mfr is CATEGORICAL, fibre is NUMERICAL
 png(filename='images/4-2-5.png')
 boxplot(fibre ~ mfr,
-        main="Mfr & Fibre",
+        main="4.2 - Mfr & Fibre",
 	xlab="Mfr",
 	ylab="Fibre")
 dev.off()
@@ -162,7 +162,7 @@ dev.off()
 #     is some relation
 png(filename='images/4-2-6.png')
 plot(sugars, sodium,
-     main="Sugars & Sodium",
+     main="4.2 - Sugars & Sodium",
      xlab="Sugars",
      ylab="Sodium")
 lm <- lm(sodium ~ sugars)
@@ -173,7 +173,7 @@ dev.off()
 #     a. How about plotting Sugars to Calories?
 png(filename='images/4-2-7a.png')
 plot(sugars, calories,
-     main="Sugars & Calories",
+     main="4.2 - Sugars & Calories",
      xlab="Sugars",
      ylab="Calories")
 lm <- lm(calories ~ sugars)
@@ -183,7 +183,7 @@ dev.off()
 #     a. How about plotting to Carbo to Fat?
 png(filename='images/4-2-7b.png')
 plot(carbo, fat,
-     main="Carbo & Fat",
+     main="4.2 - Carbo & Fat",
      xlab="Carbo",
      ylab="Fat")
 lm <- lm(fat ~ carbo)
@@ -216,7 +216,7 @@ cor(body, brain, method='spearman')
 #  2. plot 
 png(filename='images/4-3-2.png')
 plot(body, brain,
-     main="Body & Brain",
+     main="4.3. - Body & Brain",
      xlab="body",
      ylab="brain")
 lm.a <- lm(brain ~ body)
@@ -246,7 +246,7 @@ summary(lm.a)
 #  3. plot with logarithms of variables
 png(filename='images/4-3-3.png')
 plot(log1p(body), log1p(brain),
-     main="Body & Brain, log values",
+     main="4.3 - Body & Brain, log values",
      xlab="log1p(body)",
      ylab="log1p(brain)")
 lm.b <- lm(log1p(brain) ~ log1p(body))
@@ -296,7 +296,7 @@ summary(homedata)
 #     neighborhoods?
 png(filename='images/4-4-1.png')
 plot(y1970, y2000,
-     main="Home Prices: 1970 & 2000",
+     main="4.4 - Home Prices: 1970 & 2000",
      xlab="1970",
      ylab="2000")
 lm.c <- lm(y2000 ~ y1970)
@@ -421,7 +421,7 @@ simple.lm(df$BUSH, df$BUCHANAN, pred=BUSH[50])
 #      there doesn't seem to be appreciable difference
 png(filename='images/4-5-1.png')
 plot(BUSH, BUCHANAN,
-    main="Florida: Bush vs Buchanan",
+    main="4.5 - Florida: Bush vs Buchanan",
     xlab="Bush",
     ylab="Buchanan")
 abline(lm(BUCHANAN ~ BUSH), 
@@ -430,6 +430,13 @@ abline(lm(BUCHANAN ~ BUSH),
 abline(lm(df$BUCHANAN ~ df$BUSH), 
     col="darkblue", 
     lty=2)
+legend("topright", 
+    c("w/ outliers", "w/o outliers"), 
+    text.col=c('red', 'darkblue'), 
+    col=c("red", "darkblue"), 
+    lty=1:2,
+    inset=0.05, 
+    cex=0.8)
 dev.off()
 
 detach(florida)
@@ -450,7 +457,7 @@ summary(emissions)
 
 png(filename='images/4-6-1.png')
 plot(perCapita, CO2,
-    main="Emissions: Per-Capita vs CO2",
+    main="4.6 - Emissions: Per-Capita vs CO2",
     xlab="perCapita",
     ylab="CO2")
 abline(lm(CO2 ~ perCapita), 
@@ -470,6 +477,13 @@ abline(lm(CO2 ~ perCapita),
 abline(lm(emissions[-1]$CO2 ~ emissions[-1]$perCapita),
     col="darkblue", 
     lty=2)
+legend("topright", 
+    c("w/ outlier", "w/o outlier"), 
+    text.col=c('red', 'darkblue'), 
+    col=c("red", "darkblue"), 
+    lty=1:2,
+    inset=0.05, 
+    cex=0.8)
 dev.off()
 
 detach(emissions)
