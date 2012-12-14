@@ -615,3 +615,25 @@ summary(lm.babies)
 #  F-statistic: 697.8 on 1 and 1234 DF,  p-value: < 2.2e-16 
 
 detach(babies)
+
+
+## Q 4.8
+attach(women)
+summary(women)
+#     height         weight     
+# Min.   :58.0   Min.   :115.0  
+# 1st Qu.:61.5   1st Qu.:124.5  
+# Median :65.0   Median :135.0  
+# Mean   :65.0   Mean   :136.7  
+# 3rd Qu.:68.5   3rd Qu.:148.0  
+# Max.   :72.0   Max.   :164.0  
+
+png(filename='images/4-8.png')
+plot(height, weight,
+     main="4.7 - Women: Height vs Weight",
+     xlab="Height",
+     ylab="Weight")
+abline(lm(weight ~ height), col="red")
+dev.off()
+
+detach(women)
