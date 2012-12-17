@@ -1,5 +1,5 @@
 ## Q 5.1
-data(emissions)
+data(package="UsingR", emissions)
 summary(emissions)
 #      GDP            perCapita          CO2        
 # Min.   :  59900   Min.   : 2507   Min.   :  54.0  
@@ -9,18 +9,20 @@ summary(emissions)
 # 3rd Qu.: 683500   3rd Qu.:22250   3rd Qu.: 547.5  
 # Max.   :8083000   Max.   :29647   Max.   :6750.0  
 
+attach(emissions)
 png(filename="images/5-1-1.png")
-boxplot(emissions,
+plot(GDP, CO2,
   main="5.1 - emissions, w/ outlier")
 # guess who the single outlier is???
-#identify(emissions$GDP, n=1)
+#identify(locator(1), n=1)
 #[1] 1
 dev.off()
 
 png(filename="images/5-1-2.png")
-boxplot(emissions[-1,],
+plot(GDP[-1], CO2[-1],
   main="5.1 - emissions w/out outlier")
 dev.off()
+detach(emissions)
 
 
 ## Q 5.2
@@ -67,3 +69,47 @@ png(filename="images/5-3.png")
 boxplot(chicken, main="5.3 - chicken")
 dev.off()
 #  there is a clear difference in ave. weight by ration
+
+
+## Q 5.4
+library(MASS)
+data(package="UsingR", kid.weights)
+summary(kid.weights)
+#       age             weight           height      gender 
+#  Min.   :  3.00   Min.   : 10.00   Min.   :12.00   F:129  
+#  1st Qu.: 12.25   1st Qu.: 22.00   1st Qu.:28.00   M:121  
+#  Median : 39.00   Median : 32.00   Median :36.00          
+#  Mean   : 47.95   Mean   : 38.38   Mean   :36.52          
+#  3rd Qu.: 69.75   3rd Qu.: 45.00   3rd Qu.:43.00          
+#  Max.   :144.00   Max.   :150.00   Max.   :67.00 
+
+attach(kid.weights)
+age.yr = cut(age, seq(0,144,by=12), labels=0:11)
+
+png(filename="images/5-4.png")
+boxplot(weight ~ age.yr, main="5.4 - age vs. weights")
+dev.off()
+detach(kid.weights)
+#  a clear upward trend in weight, with the range increasing as 
+#  the child gets older
+
+
+## Q 5.5
+data(package='UsingR', carbon)
+summary(carbon)
+#     Monoxide           Site  
+#  Min.   :0.1050   Min.   :1  
+#  1st Qu.:0.1087   1st Qu.:1  
+#  Median :0.1170   Median :2  
+#  Mean   :0.1172   Mean   :2  
+#  3rd Qu.:0.1212   3rd Qu.:3  
+#  Max.   :0.1420   Max.   :3  
+
+attach(carbon)
+png(filename="images/5-5.png")
+boxplot(Monoxide ~ Site, main="5.5 - Monoxide by Site")
+dev.off()
+detach(carbon)
+#  Site 2 seems to have clearly higher levels than the
+#  other 2, which are both at the same level
+
