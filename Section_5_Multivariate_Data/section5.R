@@ -49,4 +49,21 @@ library(UsingR)
 png(filename="images/5-2-2.png")
 simple.densityplot(chips)
 dev.off()
-# slight variations on mean, but they all seem to be similar
+#  slight variations on mean, but they all seem to be similar
+
+
+## Q 5.3
+data(package="UsingR", chicken)
+summary(chicken)
+#     Ration1         Ration2     Ration3     
+#  Min.   :2.000   Min.   :3   Min.   :5.000  
+#  1st Qu.:3.000   1st Qu.:4   1st Qu.:6.000  
+#  Median :4.000   Median :5   Median :6.000  
+#  Mean   :4.154   Mean   :5   Mean   :6.385  
+#  3rd Qu.:5.000   3rd Qu.:6   3rd Qu.:7.000  
+#  Max.   :7.000   Max.   :7   Max.   :8.000  
+ 
+png(filename="images/5-3.png")
+boxplot(chicken, main="5.3 - chicken")
+dev.off()
+#  there is a clear difference in ave. weight by ration
