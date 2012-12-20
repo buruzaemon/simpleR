@@ -99,7 +99,8 @@ f(x,3,s)
 ## Q 7.5
 set.seed(7.5)
 
-#  ... this is a [continuous uniform distribution](http://en.wikipedia.org/wiki/Uniform_distribution_(continuous))!
+#  ... this is a continuous uniform distribution
+#      c.f. http://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
 f <- function(n, a=0, b=1)
 {
     m <- (b+a)/2
@@ -107,26 +108,50 @@ f <- function(n, a=0, b=1)
     (mean(runif(n,a,b))-m)/(s/sqrt(n))
 }
 
-X1 <- f(1)
-X5 <- f(5)
-X10 <- f(10)
-X25 <- f(25)
+X1 <- simple.sim(100,f,1)
+X5 <- simple.sim(100,f,5) 
+X10 <- simple.sim(100,f,10) 
+X25 <- simple.sim(100,f,25)
 
 par(mfrow=c(2,2), oma=c(0,0,2,0))
 
 hist(X1, col=gray(.9), prob=T, main="n=1")
-curve(dunif(X1,0,1), add=T, col="blue")
+lines(density(X1, adjust=2), col="blue")
 
 hist(X5, col=gray(.9), prob=T, main="n=5")
-curve(dunif(X5,0,1), add=T, col="blue")
+lines(density(X5, adjust=2), col="blue")
 
 hist(X10, col=gray(.9), prob=T, main="n=10")
-curve(dunif(X10,0,1), add=T, col="blue")
-
-hist(X10, col=gray(.9), prob=T, main="n=10")
-curve(dunif(X10,0,1), add=T, col="blue")
+lines(density(X10, adjust=2), col="blue")
 
 hist(X25, col=gray(.9), prob=T, main="n=25")
-curve(dunif(X25,0,1), add=T, col="blue")
+lines(density(X25, adjust=2), col="blue")
 
 title("7.5 - Uniform Dist. Simulations: n=1, 5, 10, 25", outer=T)
+dev.copy(png, "images/7-5.png")
+dev.off()
+
+
+## Q 7.6
+set.seed(7.6)
+
+f <- function()
+{
+    for (n in 1:50) {
+        results = c()
+        mu = 10;sigma = mu
+        for (i in 1:200) {
+          X = rexp(200,1/mu)
+          results[i] = (mean(X)-mu)/(sigma/sqrt(n))
+        }
+        hist(results, 
+	     prob=T, 
+	     xlim=c(-2, 2),
+	     ylim=c(0, 4),
+	     main=paste("7.6 - exp distibution: n=", as.character(n), sep=""))
+	lines(density(results, adjust=2), col="blue")
+        Sys.sleep(1)
+    }
+}
+
+f()
