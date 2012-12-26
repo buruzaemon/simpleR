@@ -1,3 +1,5 @@
+library(UsingR)
+
 ## Q 8.1
 data(package="UsingR", babies)
 attach(babies)
